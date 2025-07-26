@@ -17,7 +17,7 @@ export const Header = () => {
   return (
     <header className="absolute top-0 left-0 right-0 p-4 sm:p-2">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/">
+        <Link href="/" className="flex items-center gap-x-2">
           <Image
             src="/RedBerryLogo.png"
             alt="Your Company Logo"
@@ -25,6 +25,7 @@ export const Header = () => {
             height={40}
             className="h-14 w-auto"
           />
+          <span className="text-2xl font-bold text-white">CryptoBee</span>
         </Link>
         <Button onClick={handleConnectWallet} color="primary" className="mt-2">
           Connect Wallet
