@@ -20,7 +20,8 @@ export const WalletContextProvider: FC<{ children: React.ReactNode }> = ({
 }) => {
   // Best Practice: Use an environment variable for your RPC endpoint.
   // This allows you to easily switch between devnet/mainnet and use a dedicated RPC provider.
-  const endpoint = process.env.NEXT_PUBLIC_SOLANA_RPC_HOST!;
+  const endpoint =
+    process.env.NEXT_PUBLIC_SOLANA_RPC_HOST || "https://api.devnet.solana.com";
 
   const wallets = useMemo(
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
