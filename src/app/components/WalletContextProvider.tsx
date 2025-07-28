@@ -6,7 +6,6 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
@@ -14,7 +13,7 @@ import {
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 // Default styles that can be overridden by your app
-require("@solana/wallet-adapter-react-ui/styles.css");
+import "@solana/wallet-adapter-react-ui/styles.css";
 
 export const WalletContextProvider: FC<{ children: React.ReactNode }> = ({
   children,
