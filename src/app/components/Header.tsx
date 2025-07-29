@@ -1,17 +1,9 @@
 "use client";
 
 import React from "react";
-import { Button } from "./ui/button";
 import Image from "next/image";
 import Link from "next/link";
-
-// A placeholder function for connecting a wallet.
-// You would replace this with your actual wallet connection logic
-// using a library like wagmi, ethers.js, or web3-modal.
-const handleConnectWallet = () => {
-  console.log("Connecting wallet...");
-  alert("Connect wallet functionality to be implemented.");
-};
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 export const Header = () => {
   return (
@@ -27,9 +19,7 @@ export const Header = () => {
           />
           <span className="text-2xl font-bold text-white">CryptoBee</span>
         </Link>
-        <Button onClick={handleConnectWallet} color="primary" className="mt-2">
-          Connect Wallet
-        </Button>
+        <WalletMultiButton />
       </div>
     </header>
   );
