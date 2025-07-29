@@ -55,9 +55,11 @@ export const Header = () => {
           <span className="text-2xl font-bold text-white">CryptoBee</span>
         </Link>
         <div className="text-white">
-          {publicKey && <span>Balance: {balance.toFixed(2)} SOL</span>}
+          {publicKey && (
+            <span className="mr-4 mb-4">Balance: {balance.toFixed(2)} SOL</span>
+          )}
+          <WalletMultiButtonNoSSR />
         </div>
-        <WalletMultiButtonNoSSR />
       </div>
     </header>
   );

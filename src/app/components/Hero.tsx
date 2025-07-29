@@ -1,10 +1,8 @@
 "use client";
 import React from "react";
 import { Button } from "./ui/button";
-const handlePrimaryAction = () => {
-  console.log("Primary action clicked...");
-  alert("This will lead to the main betting interface.");
-};
+import Link from "next/link";
+
 export const Hero = () => {
   return (
     <div className="text-center">
@@ -15,9 +13,9 @@ export const Hero = () => {
         The decentralized platform for betting on cryptocurrency markets.
         Connect your wallet and start predicting.
       </p>
-      <Button onClick={handlePrimaryAction} size="lg">
-        Explore Markets
-      </Button>
+      <Link href="/markets">
+        <Button size="lg">Explore Markets</Button>
+      </Link>
     </div>
   );
 };
