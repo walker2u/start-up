@@ -6,6 +6,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import Link from "next/link";
 import Image from "next/image";
+import { useAuth } from "../api/auth/AuthProvider";
 
 const WalletMultiButtonNoSSR = dynamic(
   () =>
@@ -19,26 +20,14 @@ export const Header = () => {
   const [balance, setBalance] = useState(0);
   const { connection } = useConnection();
   const { publicKey } = useWallet();
+  const { isLoading, isAuthenticated, login, logout } = useAuth();
 
   useEffect(() => {
-    const updateBalance = async () => {
-      if (!connection || !publicKey) {
-        console.warn("Wallet not connected or connection unavailable");
-      } else {
-        try {
-          const accountInfo = await connection.getAccountInfo(publicKey);
-          if (accountInfo) {
-            setBalance(accountInfo.lamports / LAMPORTS_PER_SOL);
-          } else {
-            throw new Error("Account info not found");
-          }
-        } catch (error) {
-          console.error("Failed to retrieve account info:", error);
-        }
-      }
-    };
-
-    updateBalance();
+    if (publicKey && connection) {
+      connection.getAccountInfo(publicKey).then((info) => {
+        if (info) setBalance(info?.lamports / LAMPORTS_PER_SOL);
+      });
+    }
   }, [connection, publicKey]);
 
   return (
@@ -54,11 +43,29 @@ export const Header = () => {
           />
           <span className="text-2xl font-bold text-white">CryptoBee</span>
         </Link>
-        <div className="text-white">
+        <div className="flex items-center gap-x-4 text-white">
           {publicKey && (
             <span className="mr-4 mb-4">Balance: {balance.toFixed(2)} SOL</span>
           )}
           <WalletMultiButtonNoSSR />
+
+          {publicKey && !isAuthenticated && (
+            <button
+              onClick={login}
+              disabled={isLoading}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 disabled:bg-blue-400"
+            >
+              {isLoading ? "Signing in..." : "Sign-In to Verify"}
+            </button>
+          )}
+          {isAuthenticated && (
+            <button
+              onClick={logout}
+              className="bg-red-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-red-700"
+            >
+              Logout
+            </button>
+          )}
         </div>
       </div>
     </header>
