@@ -11,32 +11,45 @@ export const CreateMarketForm: React.FC<CreateMarketFormProps> = ({
 }) => {
   const [question, setQuestion] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!question || !imageUrl) {
+    if (!question.trim() || !imageUrl.trim()) {
       alert("Please fill all fields");
       return;
     }
 
-    // In a real app, this would be a proper API call.
-    // Here, we simulate creating a new market object.
-    const newMarket: Market = {
-      id: `market-${Date.now()}`, // Simple unique ID
-      question,
-      imageUrl,
-      category: "Price Prediction", // Default category
-      volume: 0,
-      outcomes: [
-        { name: "Yes", price: 0.5, color: "green" },
-        { name: "No", price: 0.5, color: "red" },
-      ],
-    };
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/admin/markets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question,
+          imageUrl,
+        }),
+      });
+      const data = await response.json();
 
-    onSubmit(newMarket);
-    // Reset form
-    setQuestion("");
-    setImageUrl("");
+      if (!response.ok) {
+        const errorMsg =
+          data.error?.fieldErrors?.question?.[0] ||
+          data.error?.fieldErrors?.imageUrl?.[0] ||
+          data.error ||
+          "An unknown error occurred.";
+        throw new Error(errorMsg);
+      }
+
+      alert("Market created successfully!");
+      setQuestion("");
+      setImageUrl("");
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -59,11 +72,15 @@ export const CreateMarketForm: React.FC<CreateMarketFormProps> = ({
         onChange={(e) => setImageUrl(e.target.value)}
         className="bg-gray-900 p-2 rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
+
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+
       <button
         type="submit"
-        className="bg-blue-600 text-white p-2 rounded-md font-semibold hover:bg-blue-700"
+        disabled={isLoading}
+        className="bg-blue-600 text-white p-2 rounded-md font-semibold hover:bg-blue-700 disabled:bg-blue-400"
       >
-        Create Market
+        {isLoading ? "Creating..." : "Create Market"}
       </button>
     </form>
   );
