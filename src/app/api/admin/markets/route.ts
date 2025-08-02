@@ -17,7 +17,7 @@ if (!supabaseUrl || !supabaseKey) {
   throw new Error("NEXT_PUBLIC_SUPABASE_URL environment variable is not set");
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(req: NextRequest) {
   try {
