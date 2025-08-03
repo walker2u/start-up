@@ -1,25 +1,13 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
-import { Market, Outcome } from "@/types";
+import { Market } from "@/types";
+import { OutcomeButton } from "./OutcomeButton";
 
 interface MarketCardProps {
   market: Market;
 }
-
-const OutcomeButton: React.FC<{ outcome: Outcome }> = ({ outcome }) => (
-  <button
-    className={`w-full flex justify-between items-center p-3 rounded-md transition-all ${
-      outcome.color === "green"
-        ? "bg-green-500/10 hover:bg-green-500/20 text-green-400"
-        : "bg-red-500/10 hover:bg-red-500/20 text-red-400"
-    }`}
-  >
-    <span className="font-semibold">{outcome.name}</span>
-    <span className="font-bold text-lg text-white">
-      ${outcome.price.toFixed(2)}
-    </span>
-  </button>
-);
 
 export const MarketCard: React.FC<MarketCardProps> = ({ market }) => {
   return (
@@ -39,7 +27,11 @@ export const MarketCard: React.FC<MarketCardProps> = ({ market }) => {
       </div>
       <div className="flex gap-3">
         {market.outcomes.map((outcome) => (
-          <OutcomeButton key={outcome.name} outcome={outcome} />
+          <OutcomeButton
+            key={outcome.name}
+            outcome={outcome}
+            marketId={market.id}
+          />
         ))}
       </div>
     </div>
