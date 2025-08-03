@@ -3,17 +3,10 @@ import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  // --- TEMPORARY DEBUGGING LOGS ---
-  console.log("--- Vercel Environment Variable Check ---");
-  console.log("SUPABASE_URL :", process.env.SUPABASE_URL);
-  console.log(
-    "SUPABASE_SERVICE_ROLE_KEY ",
-    process.env.SUPABASE_SERVICE_ROLE_KEY
-  );
   throw new Error("Supabase server environment variables are not set.");
 }
 
