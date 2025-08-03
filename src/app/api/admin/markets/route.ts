@@ -48,10 +48,14 @@ export async function POST(req: NextRequest) {
     console.log("[API] Preparing to call the Solana smart contract...");
     //todo real solana contract call
 
-    const simulatedOnChainAddress = `fake_addr_${Date.now()}`;
-    console.log(
-      `[API] Simulated on-chain market created at: ${simulatedOnChainAddress}`
-    );
+    const simulatedOnChainAddress = `market_pda_${Date.now()}`;
+    const simulatedYesTokenMint = `yes_token_${Date.now()}`;
+    const simulatedNoTokenMint = `no_token_${Date.now()}`;
+
+    console.log(`[API] Simulating creation:`);
+    console.log(`  - Market PDA: ${simulatedOnChainAddress}`);
+    console.log(`  - YES Token Mint: ${simulatedYesTokenMint}`);
+    console.log(`  - NO Token Mint: ${simulatedNoTokenMint}`);
 
     const { data: dbData, error: dbError } = await supabase
       .from("markets")
@@ -60,6 +64,8 @@ export async function POST(req: NextRequest) {
         image_url: imageUrl,
         onchain_address: simulatedOnChainAddress,
         category: "Price Prediction",
+        yes_token_mint: simulatedYesTokenMint,
+        no_token_mint: simulatedNoTokenMint,
       })
       .select()
       .single();
