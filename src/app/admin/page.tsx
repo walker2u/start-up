@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { mockMarkets } from "../markets/mockData";
 import { Market } from "@/types";
 import { AdminMarketCard } from "./components/AdminMarketCard";
 import { CreateMarketForm } from "./components/CreateMarketForm";
@@ -9,7 +8,7 @@ import { CreateMarketForm } from "./components/CreateMarketForm";
 export default function AdminPage() {
   // IMPORTANT: We use component state to manage markets.
   // This simulates the database. Changes will reset on refresh.
-  const [markets, setMarkets] = useState<Market[]>(mockMarkets);
+  const [markets, setMarkets] = useState<Market[]>([]);
 
   const handleDeleteMarket = (marketId: string) => {
     console.log(

@@ -14,7 +14,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({ market }) => {
     <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4 flex flex-col gap-4 transition-all hover:border-gray-600">
       <div className="flex items-start gap-3">
         <Image
-          src={market.imageUrl}
+          src={market.image_url}
           alt={market.question}
           width={40}
           height={40}
