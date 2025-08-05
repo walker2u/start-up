@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Market } from "@/types";
 import { AdminMarketCard } from "./components/AdminMarketCard";
 import { CreateMarketForm } from "./components/CreateMarketForm";
@@ -9,6 +9,25 @@ export default function AdminPage() {
   // IMPORTANT: We use component state to manage markets.
   // This simulates the database. Changes will reset on refresh.
   const [markets, setMarkets] = useState<Market[]>([]);
+
+  const loadMarkets = useCallback(async () => {
+    try {
+      const response = await fetch("/api/market");
+      if (!response.ok) {
+        throw new Error(
+          "Failed to fetch markets. Are you logged in with an admin wallet?"
+        );
+      }
+      const data = await response.json();
+      setMarkets(data);
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadMarkets();
+  }, [loadMarkets]);
 
   const handleDeleteMarket = (marketId: string) => {
     console.log(
